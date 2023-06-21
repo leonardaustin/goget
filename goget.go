@@ -26,6 +26,8 @@ func main() {
 }
 
 func getDestPath(repoURL string) string {
+	log.Println("getDestPath: ", repoURL)
+	
 	// Remove the protocol from the URL
 	repoURL = strings.TrimPrefix(repoURL, "https://")
 	repoURL = strings.TrimPrefix(repoURL, "http://")
@@ -41,11 +43,15 @@ func getDestPath(repoURL string) string {
 
 	// Extract the domain and organization parts
 	domain := parts[0]
+	log.Println("domain: ", domain)
+	
 	organization := parts[1]
+	log.Println("organization: ", org)
 
 	// Create the destination path
 	destPath := filepath.Join(os.Getenv("HOME"), "src", domain, organization)
 
+	log.Println("destPath: ", destPath)
 	return destPath
 }
 
@@ -57,6 +63,7 @@ func gitClone(repoURL, destPath string) error {
 	}
 
 	// Set the command to execute
+	log.Println("git clone ", "https://"+repoURL, destPath)
 	cmd := exec.Command("git", "clone", "https://"+repoURL, destPath)
 
 	// Execute the command
