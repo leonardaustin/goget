@@ -46,7 +46,7 @@ func getDestPath(repoURL string) string {
 	log.Println("domain: ", domain)
 	
 	organization := parts[1]
-	log.Println("organization: ", org)
+	log.Println("organization: ", organization)
 
 	// Create the destination path
 	destPath := filepath.Join(os.Getenv("HOME"), "src", domain, organization)
