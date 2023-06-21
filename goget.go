@@ -14,9 +14,9 @@ func main() {
 	}
 
 	repoURL := os.Args[1]
-	destPath := "src" // Change this to your desired destination path
+	destPath := filepath.Join(os.Getenv("HOME"), "src", repoURL)
 
-	err := cloneAndStore(repoURL, destPath)
+	err := gitClone(repoURL, destPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,7 +24,7 @@ func main() {
 	fmt.Println("Repository cloned and stored successfully!")
 }
 
-func cloneAndStore(repoURL, destPath string) error {
+func gitClone(repoURL, destPath string) error {
 	// Create the destination directory if it doesn't exist
 	err := os.MkdirAll(destPath, os.ModePerm)
 	if err != nil {
@@ -35,10 +35,7 @@ func cloneAndStore(repoURL, destPath string) error {
 	repoName := filepath.Base(repoURL)
 
 	// Set the command to execute
-	cmd := exec.Command("git", "clone", repoURL, filepath.Join(destPath, repoName))
-
-	// Set the command's working directory
-	cmd.Dir = filepath.Dir(destPath)
+	cmd := exec.Command("git", "clone", "https://"+repoURL, filepath.Join(destPath, repoName))
 
 	// Execute the command
 	err = cmd.Run()
