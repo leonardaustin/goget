@@ -48,8 +48,11 @@ func getDestPath(repoURL string) string {
 	organization := parts[1]
 	log.Println("organization: ", organization)
 
+	repo := parts[2]
+	log.Println("repo: ", repo)
+
 	// Create the destination path
-	destPath := filepath.Join(os.Getenv("HOME"), "src", domain, organization)
+	destPath := filepath.Join(os.Getenv("HOME"), "src", domain, organization, repo)
 
 	log.Println("destPath: ", destPath)
 	return destPath
@@ -69,6 +72,7 @@ func gitClone(repoURL, destPath string) error {
 	// Execute the command
 	err = cmd.Run()
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
