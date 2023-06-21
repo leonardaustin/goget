@@ -32,7 +32,7 @@ func gitClone(repoURL, destPath string) error {
 	}
 
 	// Set the command to execute
-	cmd := exec.Command("git", "clone", repoURL, destPath)
+	cmd := exec.Command("git", "clone", "https://"+repoURL, destPath)
 
 	// Execute the command
 	err = cmd.Run()
