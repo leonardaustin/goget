@@ -14,7 +14,7 @@ func main() {
 	}
 
 	repoURL := os.Args[1]
-	destPath := filepath.Join(os.Getenv("HOME"), "src", repoURL)
+	destPath := filepath.Join(os.Getenv("HOME"), "src", filepath.Base(repoURL))
 
 	err := gitClone(repoURL, destPath)
 	if err != nil {
@@ -25,17 +25,14 @@ func main() {
 }
 
 func gitClone(repoURL, destPath string) error {
-	// Create the destination directory if it doesn't exist
-	err := os.MkdirAll(destPath, os.ModePerm)
+	// Create the parent directory if it doesn't exist
+	err := os.MkdirAll(filepath.Dir(destPath), os.ModePerm)
 	if err != nil {
 		return err
 	}
 
-	// Retrieve the repository name from the URL
-	repoName := filepath.Base(repoURL)
-
 	// Set the command to execute
-	cmd := exec.Command("git", "clone", "https://"+repoURL, filepath.Join(destPath, repoName))
+	cmd := exec.Command("git", "clone", repoURL, destPath)
 
 	// Execute the command
 	err = cmd.Run()
